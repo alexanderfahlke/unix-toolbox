@@ -4,6 +4,7 @@ pwd-to-clipboard
 # About
 
 This tool creates an alias for ```pwd``` that will copy the output of ```pwd``` to your clipboard and show the output in **stdout** as usual.
+I use this almost everyday to quickly copy the current directory I'm in for documentation or opening directories and their files in editors that do not run on a shell.
 Note: Any existing alias for ```pwd``` will be **unaliased**.
 
 Currently it tries this with the following tools of which at least one should be installed and available in your ```PATH```:
