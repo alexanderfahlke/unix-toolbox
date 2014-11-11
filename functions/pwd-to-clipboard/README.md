@@ -32,9 +32,18 @@ Simply just ```source``` the file ```pwd-to-clipboard``` and run the function ``
  - copy ```pwd-to-clipboard``` into the directory of your choice
  - copy the function itself into a **functions-file** (I personally have a file ```.functions``` in my ```$HOME``` )
 - let ```.bash_profile``` source the file ```$HOME/.functions```
-- let ```.bash_profile``` run the function ```pwd-to-clipboard``` everytime you login
+- one of the following
+ - let ```.bash_profile``` run the function ```pwd-to-clipboard``` everytime you login
+ - let ```.aliases``` run the function ```pwd-to-clipboard``` everytime you login (that's what I do)
 
-In ```$HOME/.bash_profile```
+```$HOME```
+
+	$ ls -la $HOME
+	...
+	-rw-------  1 alexanderfahlke alexanderfahlke      690 Nov 11 17:44 .functions
+	...
+
+```$HOME/.bash_profile```
 
 	...
 	# Load the additional dotfiles
@@ -45,7 +54,7 @@ In ```$HOME/.bash_profile```
 	unset file
 	...
 
-In ```$HOME/.aliases```
+```$HOME/.aliases```
 
 	...
 	# copy the output of pwd into the clipboard
