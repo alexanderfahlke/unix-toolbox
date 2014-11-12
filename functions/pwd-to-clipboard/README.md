@@ -22,41 +22,37 @@ If none of the tools are present, there will be no alias created for ```pwd```.
 Simply just ```source``` the file ```pwd-to-clipboard``` and run the function ```pwd-to-clipboard```.
 
 	$ source ~/pwd-to-clipboard
-	$ pwd-to-clipboard
 	$ pwd
 	/home/alexanderfahlke # this now get's also copied to your clipboard
 
 ### Everyday usage
 
-- one of the following
- - copy ```pwd-to-clipboard``` into the directory of your choice
- - copy the function itself into a **functions-file** (I personally have a file ```.functions``` in my ```$HOME``` )
-- let ```.bash_profile``` source the file ```$HOME/.functions```
-- one of the following
- - let ```.bash_profile``` run the function ```pwd-to-clipboard``` everytime you login
- - let ```.aliases``` run the function ```pwd-to-clipboard``` everytime you login (that's what I do)
+- create a directory named ```.functions``` in your home directory
+- copy ```pwd-to-clipboard``` into this directory
+- let ```.bash_profile``` source all files in ```$HOME/.functions``` everytime you login
+
 
 Contents of ```$HOME```
 
 	$ ls -la $HOME
 	...
-	-rw-------  1 alexanderfahlke alexanderfahlke      690 Nov 11 17:44 .functions
+	0 drwxr-x---   3 alexanderfahlke  alexanderfahlke    102 12 Nov 09:01 .functions
+	...
+
+Contents of ```$HOME/.functions```
+
+	$ ls -la $HOME/.functions
+	...
+	-rw-r-----   1 alexanderfahlke  alexanderfahlke   971 12 Nov 08:44 pwd-to-clipboard
 	...
 
 Contents of ```$HOME/.bash_profile```
 
 	...
-	# Load the additional dotfiles
-	# ~/.path can be used to extend $PATH.
-	for file in ~/.{path,functions,aliases}; do
-		[ -r "$file" ] && [ -f "$file" ] && source "$file"
-	done
-	unset file
-	...
-
-Contents of ```$HOME/.aliases```
-
-	...
-	# copy the output of pwd into the clipboard
-	pwd-to-clipboard
+	if [[ -d $HOME/.functions ]]; then
+		for func in $(find $HOME/.functions -type f); do
+			[ -r "$func" ] && [ -f "$func" ] && source "$func"
+		done
+		unset func
+	fi
 	...

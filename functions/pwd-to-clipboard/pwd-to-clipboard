@@ -14,15 +14,15 @@
 
 function pwd-to-clipboard() {
 	if [[ -n $(which xclip) ]]; then
-		copycommand='xclip -i -selection clipboard'
+		clipboard='xclip -i -selection clipboard'
 	elif [[ -n $(which xsel) ]]; then
-		copycommand='xsel -i --clipboard'
+		clipboard='xsel -i --clipboard'
 	elif [[ -n $(which pbcopy) ]]; then
-		copycommand='pbcopy'
+		clipboard='pbcopy'
 	fi
 
-	if [[ -n ${copycommand} ]]; then
-		unalias pwd
-		alias pwd="pwd && pwd | ${copycommand}"
-	fi
+	[[ -n ${clipboard} ]] && unalias pwd 2>> /dev/null; alias pwd="pwd && pwd | ${clipboard}"
 }
+
+# create the alias
+pwd-to-clipboard
