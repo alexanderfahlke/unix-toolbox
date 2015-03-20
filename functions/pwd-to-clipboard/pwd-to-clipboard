@@ -13,15 +13,15 @@
 #   limitations under the License.
 
 function pwd-to-clipboard() {
-	if [[ -n $(which xclip) ]]; then
+	if [[ -n $(which 'xclip') ]]; then
 		clipboard='xclip -i -selection clipboard'
-	elif [[ -n $(which xsel) ]]; then
+	elif [[ -n $(which 'xsel') ]]; then
 		clipboard='xsel -i --clipboard'
-	elif [[ -n $(which pbcopy) ]]; then
+	elif [[ -n $(which 'pbcopy') ]]; then
 		clipboard='pbcopy'
 	fi
 
-	[[ -n ${clipboard} ]] && unalias pwd 2>> /dev/null; alias pwd="pwd && pwd | ${clipboard}"
+	[[ -n "${clipboard}" ]] && unalias 'pwd' 2>> /dev/null; alias pwd="pwd && pwd | ${clipboard}"
 }
 
 # create the alias
