@@ -12,6 +12,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+unset -f pwd_to_clipboard
+
 function pwd_to_clipboard() {
 	if [[ -n $(which 'xclip') ]]; then
 		clipboard='xclip -i -selection clipboard'
@@ -21,9 +23,9 @@ function pwd_to_clipboard() {
 		clipboard='pbcopy'
 	fi
 
-	[[ -n "${clipboard}" ]] && unalias 'pwd' 2>> /dev/null; alias pwd="pwd && pwd | ${clipboard}"
+	[[ -n "${clipboard}" ]] && unalias 'pwd' 2> /dev/null
+	alias pwd="pwd && pwd | ${clipboard}"
 }
 
-# create the alias
-pwd_to_clipboard
-unset -f 'pwd_to_clipboard'
+pwd_to_clipboard # create the pwd-alias
+unset -f pwd_to_clipboard
