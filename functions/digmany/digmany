@@ -12,10 +12,18 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-digmany() {
+unset -f digmany
+
+function digmany() {
+	domain=${1}
+	if [[ -z "${domain}" ]]; then
+		echo "got no domain to query, exiting..."
+		return 1
+	fi
+
 	for record_type in A AAAA NS MD MF CNAME SOA MB MG MR NULL WKS PTR HINFO MINFO MX TXT; do
-		record=$(dig +short "${1}" "${record_type}")
-		if [ ! -z "${record}" ]; then
+		record=$(dig +short "${domain}" "${record_type}")
+		if [[ ! -z "${record}" ]]; then
 			echo "${record}" | while read line; do
 				echo -e "${record_type}\t${line}"
 			done
