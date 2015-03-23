@@ -8,9 +8,9 @@ This tool creates a little helper function to support you when digging DNS recor
 
 ### One time usage
 
-Simply just ```source``` the file ```digmany``` and run the function ```digmany``` with any fqdn.
+Simply just ```source``` the file ```digmany.sh``` and run the function ```digmany``` with any fqdn.
 
-    $ source ~/digmany
+    $ source ~/digmany.sh
     $ digmany hadooppowered.com
     A	54.231.13.244
     NS	ns-1703.awsdns-20.co.uk.
@@ -25,7 +25,7 @@ Simply just ```source``` the file ```digmany``` and run the function ```digmany`
 ### Everyday usage
 
 - create a directory named ```.functions``` in your home directory
-- copy ```digmany``` into this directory
+- copy ```digmany.sh``` into this directory
 - let ```.bash_profile``` source all files in ```$HOME/.functions``` everytime you login
 
 
@@ -40,7 +40,7 @@ Contents of ```$HOME/.functions```
 
     $ ls -la $HOME/.functions
     ...
-    -rw-r-----   1 alexanderfahlke  alexanderfahlke   884 Mar 10 19:31 digmany
+    -rw-r-----   1 alexanderfahlke  alexanderfahlke   884 Mar 10 19:31 digmany.sh
     ...
 
 Contents of ```$HOME/.bash_profile```

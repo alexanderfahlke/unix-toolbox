@@ -21,9 +21,9 @@ It tries this with the following commandline tools of which at least one should 
 
 ### One time use
 
-Simply just ```source``` the file ```pwd_to_clipboard```.
+Simply just ```source``` the file ```pwd_to_clipboard.sh```.
 
-    $ source pwd_to_clipboard
+    $ source pwd_to_clipboard.sh
 
     # check if the alias was created.
     $ alias pwd
@@ -35,7 +35,7 @@ Simply just ```source``` the file ```pwd_to_clipboard```.
 ### Everyday usage
 
 - create a directory named ```.functions``` in your home directory
-- copy ```pwd_to_clipboard``` into this directory
+- copy ```pwd_to_clipboard.sh``` into this directory
 - let ```.bash_profile``` source all files in ```${HOME}/.functions``` everytime you login
 
 
@@ -50,7 +50,7 @@ Contents of ```${HOME}/.functions```
 
     $ ls -la ${HOME}/.functions
     ...
-    -rw-r-----   1 alexanderfahlke  alexanderfahlke   971 12 Nov 08:44 pwd_to_clipboard
+    -rw-r-----   1 alexanderfahlke  alexanderfahlke   971 12 Nov 08:44 pwd_to_clipboard.sh
     ...
 
 Contents of ```${HOME}/.bash_profile```
