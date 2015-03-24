@@ -13,6 +13,7 @@
 # limitations under the License.
 
 unset -f git_reposcan
+
 function git_reposcan() {
 	GITBASEDIRECTORY=$(\pwd)
 
