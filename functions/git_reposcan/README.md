@@ -12,6 +12,21 @@ Simply just ```source``` the file ```git_reposcan.sh``` and run the function ```
 
     $ source ~/git_reposcan.sh
     $ git_reposcan
+    -- puppet-nagios-nrpe --
+    * fix-broken-debian6-nrpe-init
+      master
+      remotes/origin/HEAD -> origin/master
+      remotes/origin/fix-broken-debian6-nrpe-init
+      remotes/origin/master
+
+    -- puppet-bamboo_agent --
+    * add-INIT-INFO-to-init-script
+      master
+      remotes/origin/HEAD -> origin/master
+      remotes/origin/add-INIT-INFO-to-init-script
+      remotes/origin/master
+
+
 
 ### Everyday usage
 
