@@ -17,7 +17,7 @@ unset -f git_reposcan
 function git_reposcan() {
 	GITBASEDIRECTORY=$(\pwd)
 
-	for REPOSITORY in $(find -L "${GITBASEDIRECTORY}" -maxdepth 1 -mindepth 1 -type d); do
+	find -L "${GITBASEDIRECTORY}" -maxdepth 1 -mindepth 1 -type d -print0 | while read -d $'\0' REPOSITORY; do
 		cd "${REPOSITORY}"
 		if [[ -d '.git' ]] || git rev-parse --git-dir > /dev/null 2>&1; then
 			echo "-- ${REPOSITORY##*/} --"
