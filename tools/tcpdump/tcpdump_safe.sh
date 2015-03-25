@@ -26,8 +26,8 @@ if [[ -f ${DUMPFILE} ]]; then
 fi
 
 if [[ "${EUID}" -ne 0 ]]; then
-  echo "Must be run as root, exiting..."
-  exit 2
+	echo "Must be run as root, exiting..."
+	exit 2
 fi
 
 nohup tcpdump ${TCPDUMP_PARAMS} > /dev/null 2>&1 & PID=$!
