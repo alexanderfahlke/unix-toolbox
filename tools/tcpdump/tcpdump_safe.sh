@@ -14,31 +14,35 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-DUMPFILE='/tmp/tcpdumpfile.pdump'
-TCPDUMP_PARAMS="-w ${DUMPFILE} -s96 -i eth0 tcp port 80 and host hadooppowered.com"
-DUMPSIZE_MAX_BYTES="$((1024 * 1024 * 100))" # 100MB
+DUMPFILE_NAME='/tmp/dump.pcap' # filename
+DUMPFILE_MAX_SIZE='1' # file site in MB
+DUMPFILE_MAX_COUNT='2' # filecount
+DUMPFILE_ROTATE_SECONDS='60' # rotate every x seconds
+INTERFACE='en1' # interface
+PACKET_CAPTURE_MAX_SIZE='96' # max packet capture size
+TCPDUMP_COMMAND='tcp port 80 and host hadooppowered.com'
 
-DATEFORMAT="+%Y-%m-%d%t%H:%M:%S"
+# filename is in the following form nameXXX.pcap
+# check if the dumpfie already exists
+#if [[ -f ${DUMPFILE_NAME%%} ]]; then
+#	echo "The dumpfile \"${DUMPFILE_NAME}\" already exists, exiting..."
+#	exit 1
+#fi
 
-if [[ -f ${DUMPFILE} ]]; then
-	echo "The dumpfile \"${DUMPFILE}\" already exists, exiting..."
+# check if script is run as root
+if [[ "${EUID}" -ne 0 ]]; then
+	echo "Must be run as root, exiting..."
 	exit 1
 fi
 
-if [[ "${EUID}" -ne 0 ]]; then
-	echo "Must be run as root, exiting..."
-	exit 2
-fi
+nohup tcpdump \
+	-n \
+	-w ${DUMPFILE_NAME} \
+	-C ${DUMPFILE_MAX_SIZE} \
+	-W ${DUMPFILE_MAX_COUNT} \
+	-G ${DUMPFILE_ROTATE_SECONDS} \
+	-i ${INTERFACE} \
+	-s ${PACKET_CAPTURE_MAX_SIZE} \
+	${TCPDUMP_COMMAND} > /dev/null 2>&1 & PID=$!
 
-nohup tcpdump ${TCPDUMP_PARAMS} > /dev/null 2>&1 & PID=$!
-
-while true; do
-	FILESIZE=$(stat -c '%s' "${DUMPFILE}" 2> /dev/null)
-	echo -e "$(date ${DATEFORMAT})\t${FILESIZE}"
-	if [[ ! -z ${FILESIZE} ]] && [[ ${FILESIZE} -gt ${DUMPSIZE_MAX_BYTES} ]]; then
-		echo "Quitting tcpdump ${PID}. Maximum dump filesize reached."
-		/usr/bin/kill ${PID}
-		break
-	fi
-	sleep 5
-done
+#echo "tcpdump running as PID ${PID}"
