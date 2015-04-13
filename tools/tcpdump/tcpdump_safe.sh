@@ -27,12 +27,20 @@ if [[ "${EUID}" -ne 0 ]]; then
 	exit 1
 fi
 
+# check if enough disk capacity is remaining
+DUMPFILE_BASEDIR=$(dirname "${DUMPFILE_NAME}")
+REMAINING_DISK_CAPACITY=$(df -m "${DUMPFILE_BASEDIR}" | tail -n 1 | awk '{print $4}')
+if [[ $((${DUMPFILE_MAX_SIZE} * ${DUMPFILE_MAX_COUNT})) -gt ${REMAINING_DISK_CAPACITY} ]]; then
+	echo "Not enough space on disk to capture $((${DUMPFILE_MAX_SIZE} * ${DUMPFILE_MAX_COUNT})) MB of pcap files."
+	exit 2
+fi
+
 # run tcpdump
 tcpdump \
 	-n \
-	-w ${DUMPFILE_NAME} \
-	-C ${DUMPFILE_MAX_SIZE} \
-	-W ${DUMPFILE_MAX_COUNT} \
-	-i ${INTERFACE} \
-	-s ${PACKET_CAPTURE_MAX_SIZE} \
-	${TCPDUMP_EXPRESSION}
+	-w "${DUMPFILE_NAME}" \
+	-C "${DUMPFILE_MAX_SIZE}" \
+	-W "${DUMPFILE_MAX_COUNT}" \
+	-i "${INTERFACE}" \
+	-s "${PACKET_CAPTURE_MAX_SIZE}" \
+	"${TCPDUMP_EXPRESSION}"
