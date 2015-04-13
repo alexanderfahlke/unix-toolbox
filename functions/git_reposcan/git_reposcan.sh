@@ -15,7 +15,7 @@
 unset -f git_reposcan
 
 function git_reposcan() {
-	GITBASEDIRECTORY=$(\pwd)
+	GITBASEDIRECTORY=$(pwd)
 
 	find -L "${GITBASEDIRECTORY}" -maxdepth 1 -mindepth 1 -type d -print0 | while read -d $'\0' REPOSITORY; do
 		cd "${REPOSITORY}"
