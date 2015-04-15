@@ -15,28 +15,28 @@
 unset -f git_reposcan
 
 function git_reposcan() {
-	GITBASEDIRECTORY=$(pwd)
+	basedirectory=$(pwd)
 
 	# short circuit if already in a git repository
 	git symbolic-ref -q HEAD > /dev/null 2>&1
 	if [[ $? -eq 0 ]]; then
-		echo "-- ${GITBASEDIRECTORY##*/} --"
+		echo "-- ${basedirectory##*/} --"
 		git branch -a
 		echo
 		return
 	fi
 
 	# get branches from all subdirs that are a git repository
-	find -L "${GITBASEDIRECTORY}" -maxdepth 1 -mindepth 1 -type d -print0 | while read -d $'\0' REPOSITORY; do
-		cd "${REPOSITORY}"
+	find -L "${basedirectory}" -maxdepth 1 -mindepth 1 -type d -print0 | while read -d $'\0' git_repository; do
+		cd "${git_repository}"
 
 		git symbolic-ref -q HEAD > /dev/null 2>&1
 		if [[ $? -eq 0 ]]; then
-			echo "-- ${REPOSITORY##*/} --"
+			echo "-- ${git_repository##*/} --"
 			git branch -a
 			echo
 		fi
 	done
 
-	cd "${GITBASEDIRECTORY}"
+	cd "${basedirectory}"
 }
