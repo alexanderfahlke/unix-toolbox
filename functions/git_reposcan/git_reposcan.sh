@@ -18,7 +18,7 @@ function git_reposcan() {
 	basedirectory=$(pwd)
 
 	# short circuit if already in a git repository
-	git symbolic-ref -q HEAD > /dev/null 2>&1
+	git symbolic-ref -q 'HEAD' > /dev/null 2>&1
 	if [[ $? -eq 0 ]]; then
 		echo "-- ${basedirectory##*/} --"
 		git branch -a
@@ -30,7 +30,7 @@ function git_reposcan() {
 	find -L "${basedirectory}" -maxdepth 1 -mindepth 1 -type d -print0 | while read -d $'\0' git_repository; do
 		cd "${git_repository}"
 
-		git symbolic-ref -q HEAD > /dev/null 2>&1
+		git symbolic-ref -q 'HEAD' > /dev/null 2>&1
 		if [[ $? -eq 0 ]]; then
 			echo "-- ${git_repository##*/} --"
 			git branch -a
