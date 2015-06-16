@@ -15,7 +15,7 @@
 unset -f digmany
 
 function digmany() {
-	domain=${1}
+	domain="${1}"
 	if [[ -z "${domain}" ]]; then
 		echo "got no domain to query, exiting..."
 		return 1

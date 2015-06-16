@@ -14,12 +14,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-DUMPFILE_NAME='/tmp/dump.pcap'
-DUMPFILE_MAX_SIZE='100' # maximum file size in MB
-DUMPFILE_MAX_COUNT='10' # maximum filecount
-INTERFACE='eth0' # interface name
-PACKET_CAPTURE_MAX_SIZE='96' # max packet capture size in bytes
-TCPDUMP_EXPRESSION='tcp port 80 and host hadooppowered.com'
+dumpfile_name='/tmp/dump.pcap'
+dumpfile_max_size='100' # maximum file size in MB
+dumpfile_max_count='10' # maximum filecount
+interface='eth0' # interface name
+packet_capture_max_size='96' # max packet capture size in bytes
+tcpdump_expression='tcp port 80 and host hadooppowered.com'
 
 # check if script is run as root
 if [[ "${EUID}" -ne 0 ]]; then
@@ -27,12 +27,20 @@ if [[ "${EUID}" -ne 0 ]]; then
 	exit 1
 fi
 
+# check if enough disk capacity is remaining
+dumpfile_basedir=$(dirname "${dumpfile_name}")
+remaining_disk_capacity=$(df -m "${dumpfile_basedir}" | tail -n 1 | awk '{print $4}')
+if [[ $((${dumpfile_max_size} * ${dumpfile_max_count})) -gt ${remaining_disk_capacity} ]]; then
+	echo "Not enough space on disk to capture $((${dumpfile_max_size} * ${dumpfile_max_count})) MB of pcap files."
+	exit 2
+fi
+
 # run tcpdump
 tcpdump \
 	-n \
-	-w ${DUMPFILE_NAME} \
-	-C ${DUMPFILE_MAX_SIZE} \
-	-W ${DUMPFILE_MAX_COUNT} \
-	-i ${INTERFACE} \
-	-s ${PACKET_CAPTURE_MAX_SIZE} \
-	${TCPDUMP_EXPRESSION}
+	-w "${dumpfile_name}" \
+	-C "${dumpfile_max_size}" \
+	-W "${dumpfile_max_count}" \
+	-i "${interface}" \
+	-s "${packet_capture_max_size}" \
+	"${tcpdump_expression}"
