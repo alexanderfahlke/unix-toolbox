@@ -12,9 +12,9 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-unset -f git_restore
+unset -f git_restore_file
 
-function git_restore() {
+function git_restore_file() {
     commit=${1}
     filename=${2}
 
