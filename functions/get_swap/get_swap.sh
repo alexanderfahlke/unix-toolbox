@@ -22,8 +22,8 @@ function get_swap() {
 
 	# summarize all swap used by PID
 	for PID in $(find /proc/ -maxdepth 1 -type d | grep -oP "[0-9]+"); do
-		PROGNAME=$(ps -p ${PID} -o comm --no-headers)
-		for SWAP in $(sudo grep 'Swap' /proc/${PID}/smaps 2> /dev/null | awk '{print $2}'); do
+		PROGNAME=$(ps -p "${PID}" -o comm --no-headers)
+		for SWAP in $(sudo grep 'Swap' "/proc/${PID}/smaps" 2> /dev/null | awk '{print $2}'); do
 			let SUM_PID=$((SUM_PID+SWAP))
 		done
 		if [[ $SUM_PID -gt 0 ]]; then
